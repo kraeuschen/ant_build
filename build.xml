@@ -2,8 +2,8 @@
 <project name="puppet" default="build">
     <property environment="env"/>
 
-   <target name="build" description="Gib mir nen echo">
-   		<echo message="Hello, world"/>
-   </target>
+    <target name="build" description="Gib mir nen echo">
+        <echo message="${env.GIT_BRANCH}"/>
+    </target>
 
 </project>
