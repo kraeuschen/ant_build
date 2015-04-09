@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="puppet" default="build">
+    <property environment="env"/>
+
+   <target name="build" description="Gib mir nen echo">
+   		<echo message="Hello, world"/>
+   </target>
+
+</project>
