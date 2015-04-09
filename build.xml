@@ -4,6 +4,7 @@
 
     <target name="build" description="Gib mir nen echo">
         <echo message="${env.GIT_BRANCH}"/>
+        <echo message="${env.CUSTOM_STUFF}"/>
     </target>
 
 </project>
