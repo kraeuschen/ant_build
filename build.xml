@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project name="puppet" default="build">
     <property environment="env"/>
 
-    <target name="build" description="Gib mir nen echo">
+    <target name="build" depends="check_branch,skip,echo" if="should_echo" />
+ 
+    <target name="check_branch">
+        <condition property="should_echo">
+            <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" trim="true"/>
+        </condition>
+    </target>
+
+    <target name="skip" unless="should_echo">
+        <echo message="skip echo" />
+    </target>
+
+    <target name="echo" description="echo">
         <echo message="${env.GIT_BRANCH}"/>
-        <echo message="${env.CUSTOM_STUFF}"/>
     </target>
 
 </project>
