@@ -3,34 +3,23 @@
 <project name="puppet" default="build">
     <property environment="env"/>
 
-    <target name="build" depends="check_branch,skip,echo" if="should_echo" />
+    <target name="build" depends="check_branch,release_production,release_second"/>
  
     <target name="check_branch">
-		<if>
-	        <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" trim="true" />
-	        <then>
-	            <property name="target.dir" value="master" />
-	            <property name="should_echo" value="true" />
-	        </then>
-	        <elseif>
-		        <equals arg1="${env.GIT_BRANCH}" arg2="origin/second" trim="true" />
-		        <then>
-		            <property name="target.dir" value="second" />
-		            <property name="should_echo" value="true" />
-		        </then>
-	        </elseif>	
-	        <else>
-	        </else>
-	    </if>
+        <condition property="dist_production">
+            <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" trim="true"/>
+        </condition>
+        <condition property="dist_second">
+            <equals arg1="${env.GIT_BRANCH}" arg2="origin/second" trim="true"/>
+        </condition>
     </target>
 
-    <target name="skip" unless="should_echo">
-        <echo message="skip echo" />
-    </target>
-
-    <target name="echo" description="echo">
+    <target name="release_production" description="echo" if="dist_production">
         <echo message="${env.GIT_BRANCH}"/>
-        <echo message="${target.dir"/>	
+    </target>
+
+    <target name="release_second" description="echo" if="dist_second">
+        <echo message="${env.GIT_BRANCH}"/>
     </target>
 
 </project>
