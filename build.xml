@@ -15,11 +15,19 @@
     </target>
 
     <target name="release_production" description="echo" if="dist_production">
-        <echo message="${env.GIT_BRANCH}"/>
+    	<antcall target="rsync">
+	    	<param name="target_dir" value="production"/>
+	  	</antcall>
     </target>
 
     <target name="release_second" description="echo" if="dist_second">
-        <echo message="${env.GIT_BRANCH}"/>
+    	<antcall target="rsync">
+	    	<param name="target_dir" value="second"/>
+	  	</antcall>
     </target>
+
+    <target name="rsync">
+		<echo message="${target_dir}"/>
+	</target>
 
 </project>
