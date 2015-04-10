@@ -3,25 +3,27 @@
 <project name="puppet" default="build">
     <property environment="env"/>
     
-    <target name="build" depends="check_branch"/>
+    <target name="build" depends="check_branch,release_production,release_second"/>
     
     <target name="check_branch">
-        <if>
-             <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" />
-             <then>
-                <antcall target="rsync">
-                    <param name="target_dir" value="production"/>
-                </antcall>
-             </then>     
-              <elseif>
-                  <equals arg1="${env.GIT_BRANCH}" arg2="origin/second" />
-                  <then>
-                    <antcall target="rsync">
-                        <param name="target_dir" value="second"/>
-                    </antcall>
-                  </then>
-             </elseif>
-         </if>      
+        <condition property="dist_production">
+            <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" trim="true"/>
+        </condition>
+        <condition property="dist_second">
+            <equals arg1="${env.GIT_BRANCH}" arg2="origin/second" trim="true"/>
+        </condition>
+    </target>
+    
+    <target name="release_production" description="echo" if="dist_production">
+        <antcall target="rsync">
+            <param name="target_dir" value="production"/>
+        </antcall>
+    </target>
+    
+    <target name="release_second" description="echo" if="dist_second">
+        <antcall target="rsync">
+            <param name="target_dir" value="second"/>
+        </antcall>
     </target>
     
     <target name="rsync">
