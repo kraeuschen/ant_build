@@ -6,9 +6,22 @@
     <target name="build" depends="check_branch,skip,echo" if="should_echo" />
  
     <target name="check_branch">
-        <condition property="should_echo">
-            <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" trim="true"/>
-        </condition>
+		<if>
+	        <equals arg1="${env.GIT_BRANCH}" arg2="origin/master" trim="true" />
+	        <then>
+	            <property name="target.dir" value="master" />
+	            <property name="should_echo" value="true" />
+	        </then>
+	        <elseif>
+		        <equals arg1="${env.GIT_BRANCH}" arg2="origin/second" trim="true" />
+		        <then>
+		            <property name="target.dir" value="second" />
+		            <property name="should_echo" value="true" />
+		        </then>
+	        </elseif>	
+	        <else>
+	        </else>
+	    </if>
     </target>
 
     <target name="skip" unless="should_echo">
@@ -17,6 +30,7 @@
 
     <target name="echo" description="echo">
         <echo message="${env.GIT_BRANCH}"/>
+        <echo message="${target.dir"/>	
     </target>
 
 </project>
